@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aisne Cadastre - Parcels Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="CSS.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="info">Click or Drag on a parcel to see details</div>
+
+  <script>
+    // Initialize map centered roughly on Aisne department
+    //const map = L.map('map').setView([49.45, 3.50], 10);
+
+
+    const map = L.map('map', {zoomControl: false})
+    .setView([49.45, 3.50], 10);
+
+L.control.zoom({
+  position: 'bottomright'
+}).addTo(map);
+
+    // Add OpenStreetMap background
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Custom pin icon for parcels (red pin style)
+    const parcelIcon = L.icon({
+      iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-red.png',
+      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    // Load parcel centroids from your API (points for pins)
+    fetch('/api/parcels-points')
+      .then(response => response.json())
+      .then(data => {
+        const geojsonLayer = L.geoJSON(data, {
+          pointToLayer: function (feature, latlng) {
+            return L.marker(latlng, { icon: parcelIcon });
+          },
+          onEachFeature: function (feature, layer) {
+            const props = feature.properties;
+            const popupContent = `
+              <table style="border-collapse: collapse; font-size: 13px;">
+                <tr>
+                  <th colspan="2" style="border: 1px solid #555; padding: 4px 8px; background:#f0f0f0;">
+                    Parcel IDU: ${props.idu}
+                  </th>
+                </tr>
+                <tr>
+                  <td style="border: 1px solid #555; padding: 4px 8px;">Commune</td>
+                  <td style="border: 1px solid #555; padding: 4px 8px;">
+                    ${props.nom_com} (${props.code_dep}${props.code_com})
+                  </td>
+                </tr>
+                <tr>
+                  <td style="border: 1px solid #555; padding: 4px 8px;">Section</td>
+                  <td style="border: 1px solid #555; padding: 4px 8px;">${props.section}</td>
+                </tr>
+                <tr>
+                  <td style="border: 1px solid #555; padding: 4px 8px;">Number</td>
+                  <td style="border: 1px solid #555; padding: 4px 8px;">${props.numero}</td>
+                </tr>
+              </table>
+            `;
+            layer.bindPopup(popupContent);
+
+            // Optional: show info in side panel on hover
+            layer.on('mouseover', function () {
+              document.getElementById('info').innerHTML = `
+                <b>${props.idu}</b><br>
+                ${props.nom_com} – ${props.section}${props.numero}
+              `;
+            });
+            layer.on('mouseout', function () {
+              document.getElementById('info').innerHTML = 'Click or Drag on a parcel to see details';
+            });
+          }
+        }).addTo(map);
+
+        // Optional: zoom to the loaded parcels
+        map.fitBounds(geojsonLayer.getBounds(), { padding: [50, 50] });
+      })
+      .catch(error => {
+        console.error('Error loading parcels:', error);
+        alert('Could not load parcels from API. Is the backend running?');
+      });
+  </script>
+</body>
+</html>
