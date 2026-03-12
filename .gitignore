@@ -1,0 +1,49 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+.tmp/
+.temp/
+
+# Logs
+logs/
+*.log
+logs/*.log
+*.out
+*.err
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage and test output
+coverage/
+.nyc_output/
+jest-test-results.json
+
+# Env and secrets
+.env
+.env.*
+*.local
+
+# OS-specific
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# IDE / editor
+.vscode/
+.idea/
+*.iml
+
+# Misc
+*.swp
+*.swo
