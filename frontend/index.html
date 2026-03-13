@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Aisne Cadastre - Parcels Map</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
   <link rel="stylesheet" href="CSS.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 </head>
 <body>
   <div id="map"></div>
@@ -79,7 +82,7 @@
             • Parcellaire Express PCI Vecteur contains only geometry + administrative identifiers.<br>
             • Owner data (incl. SIREN) comes from MAJIC (DGFiP).<br>
             • MAJIC is restricted (fiscal secrecy + RGPD).<br>
-            • No public per‑parcel owner lookup API exists.<br>
+            • No public perparcel owner lookup API exists.<br>
             • Only aggregated personnes morales data is public.
           </small>
         </td>
@@ -96,10 +99,12 @@
       `;
     }
 
-    // Load parcel centroids
+    // Load parcel centroids (with marker clustering)
     fetch('/api/parcels-points')
       .then((response) => response.json())
       .then((data) => {
+        const markers = L.markerClusterGroup();
+
         const geojsonLayer = L.geoJSON(data, {
           pointToLayer: function (feature, latlng) {
             return L.marker(latlng, { icon: parcelIcon });
@@ -123,10 +128,13 @@
                 'Click or Drag on a parcel to see details';
             });
           },
-        }).addTo(map);
+        });
+
+        markers.addLayer(geojsonLayer);
+        map.addLayer(markers);
 
         // Zoom to loaded parcels
-        map.fitBounds(geojsonLayer.getBounds(), { padding: [50, 50] });
+        map.fitBounds(markers.getBounds(), { padding: [50, 50] });
       })
       .catch((error) => {
         console.error('Error loading parcels:', error);
