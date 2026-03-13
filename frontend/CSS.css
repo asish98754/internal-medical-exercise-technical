@@ -11,7 +11,7 @@ body {
 #info {
   position: fixed;
   top: 10px;
-  left: 50%;
+  right: 10px;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.7);
   color: white;
