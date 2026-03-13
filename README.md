@@ -10,9 +10,8 @@ Interactive Leaflet map with OpenStreetMap background, clustered parcel markers,
 
 1. **Clone & install**
    - `git clone <this-repo-url>`
-   - `cd internal-medical-exercise-technical`
-   - `cd backend && npm install`
-   - `cd ..`
+   - `cd internal-medical-exercise-technical/backend`
+   - `npm install`
 2. **Configure**
    - Create a `.env` file (see **Environment variables** below).
 3. **Import Parcellaire Express data**
