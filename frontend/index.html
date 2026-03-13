@@ -52,41 +52,41 @@
       shadowSize: [41, 41],
     });
 
-    // Popup HTML generation (keeps your design)
+    // Popup HTML generation
     function buildParcelPopupContent(props) {
       return `
-  <div style="min-width: 240px; font-family: Arial; line-height: 1.5;">
-    <strong style="font-size: 1.1em;">Parcel information</strong><br><br>
+  <div class="parcel-popup">
+    <strong class="parcel-popup__title">Parcel information</strong>
 
-    <table style="border-collapse: collapse; font-size: 13px; width: 100%;">
+    <table class="parcel-popup__table">
       <tr>
-        <th colspan="2" style="border: 1px solid #555; padding: 4px 8px; background:#f0f0f0;">
+        <th colspan="2">
           Parcel IDU: ${props.idu || 'N/A'}
         </th>
       </tr>
 
       <tr>
-        <td style="border: 1px solid #555; padding: 4px 8px;">Commune</td>
-        <td style="border: 1px solid #555; padding: 4px 8px;">
+        <td>Commune</td>
+        <td>
           ${props.nom_com || 'N/A'} (${props.code_dep || ''}${props.code_com || 'N/A'})
         </td>
       </tr>
 
       <tr>
-        <td style="border: 1px solid #555; padding: 4px 8px;">Section</td>
-        <td style="border: 1px solid #555; padding: 4px 8px;">${props.section || 'N/A'}</td>
+        <td>Section</td>
+        <td>${props.section || 'N/A'}</td>
       </tr>
 
       <tr>
-        <td style="border: 1px solid #555; padding: 4px 8px;">Number</td>
-        <td style="border: 1px solid #555; padding: 4px 8px;">${props.numero || 'N/A'}</td>
+        <td>Number</td>
+        <td>${props.numero || 'N/A'}</td>
       </tr>
 
       <tr>
-        <td style="border: 1px solid #555; padding: 4px 8px;">Owner SIREN</td>
-        <td style="border: 1px solid #555; padding: 4px 8px;">
+        <td>Owner SIREN</td>
+        <td>
           Not available
-          <small style="color: #555; display: block; margin-top: 6px;">
+          <small class="parcel-popup__owner-note">
             • Parcellaire Express PCI Vecteur contains only geometry + administrative identifiers.<br>
             • Owner data (incl. SIREN) comes from MAJIC (DGFiP).<br>
             • MAJIC is restricted (fiscal secrecy + RGPD).<br>
@@ -97,13 +97,12 @@
       </tr>
     </table>
 
-    <hr style="margin: 12px 0;">
-    <div style="text-align: center; margin-top: 20px;">
-      <button onclick="lookupSirene('356000000')"
-      style="padding: 6px 12px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">   
-      Demo: Google France (SIREN 356000000)
+    <hr class="parcel-popup__divider">
+    <div class="parcel-popup__actions">
+      <button class="sirene-demo-btn" onclick="lookupSirene('356000000')">
+        Demo: Google France (SIREN 356000000)
       </button>
-      </div>
+    </div>
   </div>
       `;
     }

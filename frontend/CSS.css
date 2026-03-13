@@ -6,6 +6,7 @@ body {
 
 #map {
   height: 100vh;
+  width: 100%;
 }
 
 #info {
@@ -40,4 +41,64 @@ body {
   display: block;
   margin-bottom: 6px;
   font-size: 13px;
+}
+
+.parcel-popup {
+  min-width: 240px;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.parcel-popup__title {
+  display: block;
+  font-size: 1.1em;
+  margin-bottom: 8px;
+}
+
+.parcel-popup__table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.parcel-popup__table th,
+.parcel-popup__table td {
+  border: 1px solid #555;
+  padding: 4px 8px;
+}
+
+.parcel-popup__table th {
+  background: #f0f0f0;
+}
+
+.parcel-popup__owner-note {
+  color: #555;
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+}
+
+.parcel-popup__divider {
+  margin: 12px 0;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+.parcel-popup__actions {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.sirene-demo-btn {
+  padding: 6px 12px;
+  background: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.sirene-demo-btn:hover {
+  background: #0063cc;
 }
