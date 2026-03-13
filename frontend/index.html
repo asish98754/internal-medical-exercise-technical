@@ -13,7 +13,15 @@
 </head>
 <body>
   <div id="map"></div>
-  <div id="info">Click or Drag on a parcel to see details</div>
+  <div id="info">Click a cluster to zoom, or a parcel marker to see details.</div>
+
+  <div id="legend">
+    <strong>Map legend &amp; demo</strong>
+    <div>• Colored circles with numbers: clustered parcel markers.</div>
+    <div>• Red pins: individual parcel centroids.</div>
+    <div>• "Demo: Google France" calls the INSEE Sirene API via backend proxy.</div>
+    <div>• It shows company data only – not parcel owners from MAJIC.</div>
+  </div>
 
   <script>
     // Map initialization 
@@ -90,11 +98,12 @@
     </table>
 
     <hr style="margin: 12px 0;">
-
-    <button onclick="lookupSirene('356000000')"
-      style="padding: 6px 12px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+    <div style="text-align: center; margin-top: 20px;">
+      <button onclick="lookupSirene('356000000')"
+      style="padding: 6px 12px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">   
       Demo: Google France (SIREN 356000000)
-    </button>
+      </button>
+      </div>
   </div>
       `;
     }
@@ -125,7 +134,7 @@
 
             layer.on('mouseout', function () {
               document.getElementById('info').innerHTML =
-                'Click or Drag on a parcel to see details';
+                'Click a cluster to zoom, or a parcel marker to see details.';
             });
           },
         });
@@ -188,7 +197,3 @@
   </script>
 </body>
 </html>
-
-
-
-//token : 7927d357-91a4-4c26-a7d3-5791a43c26c8
